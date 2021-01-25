@@ -2,8 +2,11 @@ package br.com.rd.quartaturma.grupo1.servlet;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +28,27 @@ public class PlanosServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+String acao = request.getParameter("acao");
 		
+		if(acao == null) {
+			this.listarPlanos(request, response);
+		}
+	}
+	
+	protected void listarPlanos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher rd = null;
+		
+		
+        Query query = em.createNamedQuery("Planos.findAll", PlanosEntity.class);
+		
+      
+        List<PlanosEntity> planosEntity = query.getResultList();
+        
+       
+        request.setAttribute("planos", planosEntity);
+		
+		rd = request.getRequestDispatcher("/pages/consulta-planos.jsp");
+		rd.forward(request, response);
 	}
 
 	
@@ -39,6 +62,8 @@ public class PlanosServlet extends HttpServlet {
 		//listarPlanos(request, response);
 	}
 	
+	
+	
 	private void inserirPlano(PlanosEntity planoEntity, HttpServletRequest request) {
 			
 			String nmPlano = request.getParameter("nmPlano");
@@ -49,8 +74,8 @@ public class PlanosServlet extends HttpServlet {
 			//String id = request.getParameter("id");		
 			
 			PlanosEntity planosEntity = new PlanosEntity();
-			planoEntity.setIdPlano(null);
-			planoEntity.setNmPLano(nmPlano);
+			planosEntity.setIdPlano(null);
+			planosEntity.setNmPlano(nmPlano);
 			planosEntity.setDsPlano(dsPlano);
 			planosEntity.setVlPlano(vlPlano);
 			planosEntity.setIdServicoPlano(BigInteger.valueOf(idServicoPlano));
