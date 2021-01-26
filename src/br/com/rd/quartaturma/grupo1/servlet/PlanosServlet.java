@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.rd.quartaturma.grupo1.entity.CrudEntityManager;
 import br.com.rd.quartaturma.grupo1.entity.PlanosEntity;
+import br.com.rd.quartaturma.grupo1.entity.ServicoPlanoEntity;
 
 
 @WebServlet("/planos")
@@ -26,12 +27,20 @@ public class PlanosServlet extends HttpServlet {
         super();
         
     }
-
+    RequestDispatcher rd = null;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-String acao = request.getParameter("acao");
+		String acao = request.getParameter("acao");
+		
 		
 		if(acao == null) {
 			this.listarPlanos(request, response);
+	//	}else if(acao.equals("editar")) {
+	//		this.editarPlanos(request, response);
+	//	}else if(acao.equals("excluir")){
+	//		this.excluirPlanos(request, response);
+		}else if(acao.equals("novo")) {
+			RequestDispatcher rd = request.getRequestDispatcher("/pages/nova-cidade.jsp");
+			rd.forward(request, response);
 		}
 	}
 	
@@ -62,7 +71,7 @@ String acao = request.getParameter("acao");
 		//listarPlanos(request, response);
 	}
 	
-	
+
 	
 	private void inserirPlano(PlanosEntity planoEntity, HttpServletRequest request) {
 			
@@ -70,15 +79,18 @@ String acao = request.getParameter("acao");
 			String dsPlano = request.getParameter("dsPlano");
 			Double vlPlano = Double.valueOf("vlPlano");
 			String idSPlano =request.getParameter("idServicoPlano");
-			Long idServicoPlano = Long.parseLong(idSPlano);
 			//String id = request.getParameter("id");		
 			
 			PlanosEntity planosEntity = new PlanosEntity();
+			ServicoPlanoEntity servicoPlanoEntity =  em.find(ServicoPlanoEntity.class, new BigInteger(idSPlano));
+			
+			planosEntity.setServicoPlano(servicoPlanoEntity);
+			
 			planosEntity.setIdPlano(null);
 			planosEntity.setNmPlano(nmPlano);
 			planosEntity.setDsPlano(dsPlano);
 			planosEntity.setVlPlano(vlPlano);
-			planosEntity.setIdServicoPlano(BigInteger.valueOf(idServicoPlano));
+			
 				
 			em.getTransaction().begin();
 			em.persist(planosEntity);

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -32,8 +33,9 @@ public class PlanosEntity {
 	@Column (name="VL_PLANO")
 	private Double vlPlano;
 	
-	@JoinColumn (name="ID_SERVICO_PLANO" , referencedColumnName="TB_SERVICO_PLANO") //FK???
-	private BigInteger idServicoPlano;
+	@ManyToOne
+	@JoinColumn (name="ID_SERVICO_PLANO") //FK???
+	private ServicoPlanoEntity ServicoPlano;
 	
 	public BigInteger getIdPlano() {
 		return idPlano;
@@ -59,12 +61,12 @@ public class PlanosEntity {
 		this.dsPlano = dsPlano;
 	}
 
-	public BigInteger getIdServicoPlano() {
-		return idServicoPlano;
+	public ServicoPlanoEntity getServicoPlano() {
+		return ServicoPlano;
 	}
 
-	public void setIdServicoPlano(BigInteger idServicoPlano) {
-		this.idServicoPlano = idServicoPlano;
+	public void setServicoPlano(ServicoPlanoEntity servicoPlano) {
+		ServicoPlano = servicoPlano;
 	}
 
 	public Double getVlPlano() {
