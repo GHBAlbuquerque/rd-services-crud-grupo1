@@ -35,7 +35,7 @@ public class PlanosEntity {
 	
 	@ManyToOne
 	@JoinColumn (name="ID_SERVICO_PLANO") //FK???
-	private ServicoPlanoEntity ServicoPlano;
+	private ServicoPlanoEntity servicoPlano;
 	
 	public BigInteger getIdPlano() {
 		return idPlano;
@@ -62,11 +62,11 @@ public class PlanosEntity {
 	}
 
 	public ServicoPlanoEntity getServicoPlano() {
-		return ServicoPlano;
+		return servicoPlano;
 	}
 
 	public void setServicoPlano(ServicoPlanoEntity servicoPlano) {
-		ServicoPlano = servicoPlano;
+		servicoPlano = servicoPlano;
 	}
 
 	public Double getVlPlano() {

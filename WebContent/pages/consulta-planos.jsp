@@ -24,7 +24,7 @@
 					<td>${plano.nmPlano}</td>
 					<td>${plano.dsPlano}</td>
 					<td>${plano.vlPlano}</td>
-					<td>${plano.ServicoPlano.idServicoPlano}</td>
+					<td>${plano.servicoPlano.idServicoPlano}</td>
 				</tr>
 			</c:forEach>
 		</table>
