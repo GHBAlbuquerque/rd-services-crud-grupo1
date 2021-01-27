@@ -17,85 +17,114 @@ import br.com.rd.quartaturma.grupo1.entity.CrudEntityManager;
 import br.com.rd.quartaturma.grupo1.entity.PlanosEntity;
 import br.com.rd.quartaturma.grupo1.entity.ServicoPlanoEntity;
 
-
 @WebServlet("/planos")
 public class PlanosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static EntityManager em = CrudEntityManager.getEntityManager();
- 
-    public PlanosServlet() {
-        super();
-        
-    }
-    RequestDispatcher rd = null;
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	public PlanosServlet() {
+		super();
+
+	}
+
+	RequestDispatcher rd = null;
+
+	// MÉTODO GET -----------------------------
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String acao = request.getParameter("acao");
-		
-		
-		if(acao == null) {
+
+		if (acao == null) {
 			this.listarPlanos(request, response);
-	//	}else if(acao.equals("editar")) {
-	//		this.editarPlanos(request, response);
-	//	}else if(acao.equals("excluir")){
-	//		this.excluirPlanos(request, response);
-		}else if(acao.equals("novo")) {
-			RequestDispatcher rd = request.getRequestDispatcher("/pages/nova-cidade.jsp");
+			// }else if(acao.equals("editar")) {
+			// this.editarPlanos(request, response);
+		} else if (acao.equals("excluir")) {
+			this.excluirPlano(request, response);
+		} else if (acao.equals("novo")) {
+			RequestDispatcher rd = request.getRequestDispatcher("/pages/cadastro-plano.jsp");
 			rd.forward(request, response);
 		}
 	}
-	
-	protected void listarPlanos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	// LISTAR PLANOS - Jemima
+	protected void listarPlanos(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		RequestDispatcher rd = null;
-		
-		
-        Query query = em.createNamedQuery("Planos.findAll", PlanosEntity.class);
-		
-      
-        List<PlanosEntity> planosEntity = query.getResultList();
-        
-       
-        request.setAttribute("planos", planosEntity);
-		
+
+		Query query = em.createNamedQuery("Planos.findAll", PlanosEntity.class);
+
+		List<PlanosEntity> planosEntity = query.getResultList();
+
+		request.setAttribute("planos", planosEntity);
+
 		rd = request.getRequestDispatcher("/pages/consulta-planos.jsp");
 		rd.forward(request, response);
 	}
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PlanosEntity planosEntity = new PlanosEntity();
+	// MÉTODO POST -----------------------------
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String acao = request.getParameter("acao");
-
 		if (acao.equals("novo"))
-			this.inserirPlano(planosEntity, request);
-		
-		//listarPlanos(request, response);
+			this.cadastrarPlano(response, request);
+		if (acao.equals("excluir"))
+			this.excluirPlano(request, response);
 	}
-	
 
-	
-	private void inserirPlano(PlanosEntity planoEntity, HttpServletRequest request) {
-			
-			String nmPlano = request.getParameter("nmPlano");
-			String dsPlano = request.getParameter("dsPlano");
-			Double vlPlano = Double.valueOf("vlPlano");
-			String idSPlano =request.getParameter("idServicoPlano");
-			//String id = request.getParameter("id");		
-			
-			PlanosEntity planosEntity = new PlanosEntity();
-			ServicoPlanoEntity servicoPlanoEntity =  em.find(ServicoPlanoEntity.class, new BigInteger(idSPlano));
-			
-			planosEntity.setServicoPlano(servicoPlanoEntity);
-			
-			planosEntity.setIdPlano(null);
-			planosEntity.setNmPlano(nmPlano);
-			planosEntity.setDsPlano(dsPlano);
-			planosEntity.setVlPlano(vlPlano);
-			
-				
-			em.getTransaction().begin();
-			em.persist(planosEntity);
-			em.getTransaction().commit();
+	// CADASTRAR PLANO - Monique
+	private void cadastrarPlano(HttpServletResponse response, HttpServletRequest request)
+			throws ServletException, IOException {
+
+		RequestDispatcher rd = null;
+
+		String nmPlano = request.getParameter("nmPlano");
+		String dsPlano = request.getParameter("dsPlano");
+		Double vlPlano = Double.valueOf("vlPlano");
+		String idSPlano = request.getParameter("idServicoPlano");
+		// String id = request.getParameter("id");
+
+		PlanosEntity planosEntity = new PlanosEntity();
+		ServicoPlanoEntity servicoPlanoEntity = em.find(ServicoPlanoEntity.class, new BigInteger(idSPlano));
+
+		planosEntity.setIdPlano(null);
+		planosEntity.setNmPlano(nmPlano);
+		planosEntity.setDsPlano(dsPlano);
+		planosEntity.setVlPlano(vlPlano);
+		planosEntity.setServicoPlano(servicoPlanoEntity);
+
+		em.getTransaction().begin();
+		em.persist(planosEntity);
+		em.getTransaction().commit();
+
+		//rd = request.getRequestDispatcher("/pages/cadastro-plano.jsp");
+		//rd.forward(request, response);
 		
+		listarPlanos(request, response);
+
+	}
+
+	// EXCLUIR PLANO - Monique
+	protected void excluirPlano(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		RequestDispatcher rd = null;
+		String id = request.getParameter("id");
+
+		try {
+			PlanosEntity planoEntity = em.find(PlanosEntity.class, new BigInteger(id));
+			request.setAttribute("plano", planoEntity);
+
+			em.getTransaction().begin();
+			em.remove(planoEntity);
+			em.getTransaction().commit();
+
+			this.listarPlanos(request, response);
+
+		} catch (Exception e) {
+			request.setAttribute("erro", "Erro ao excluir plano.");
+			e.printStackTrace();
+		}
 	}
 
 }
