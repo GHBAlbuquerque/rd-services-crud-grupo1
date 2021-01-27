@@ -46,6 +46,10 @@
 				</tr>
 			</c:forEach>
 		</table>
+		
+								<div class="row mt-3">
+			<a href="/rd-services-crud-grupo1/servicos-plano" class="mx-0 p-0"><button
+					class="btn  btn-success">Ver lista de Serviços de Plano</button></a>
 	</div>
 </body>
 </html>
