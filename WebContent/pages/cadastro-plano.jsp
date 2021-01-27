@@ -13,12 +13,13 @@ rel="stylesheet"
 </head>
 <body>
 	<div class="container">
-		<form action="/pi-grupo-1/planos" method="post">
+		<form action="/rd-services-crud-grupo1/planos" method="post">
 			<div class="row">
 
 				Nome do Plano: <input type="text" name="nmPlano" /> 
 				Descrição do Plano: <input type="text" name="dsPlano" /> 
-				Valor do Plano: <input type="text" name="vlPlano" /> 
+				Valor do Plano: <input type="text" name="vlPlano" />
+				Id Serviço Plano: <input type="text" name="idServicoPlano" /> 
 				<input type="hidden" name="idPlano"	value="id" /> <input type="hidden" name="acao" value="novo">
 			</div>
 			<div class="row">

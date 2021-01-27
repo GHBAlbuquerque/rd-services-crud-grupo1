@@ -80,7 +80,8 @@ public class PlanosServlet extends HttpServlet {
 
 		String nmPlano = request.getParameter("nmPlano");
 		String dsPlano = request.getParameter("dsPlano");
-		Double vlPlano = Double.valueOf("vlPlano");
+		String vlPlano = request.getParameter("vlPlano");
+		Double vlPlanoDouble = Double.valueOf(vlPlano);
 		String idSPlano = request.getParameter("idServicoPlano");
 		// String id = request.getParameter("id");
 
@@ -90,7 +91,7 @@ public class PlanosServlet extends HttpServlet {
 		planosEntity.setIdPlano(null);
 		planosEntity.setNmPlano(nmPlano);
 		planosEntity.setDsPlano(dsPlano);
-		planosEntity.setVlPlano(vlPlano);
+		planosEntity.setVlPlano(vlPlanoDouble);
 		planosEntity.setServicoPlano(servicoPlanoEntity);
 
 		em.getTransaction().begin();
