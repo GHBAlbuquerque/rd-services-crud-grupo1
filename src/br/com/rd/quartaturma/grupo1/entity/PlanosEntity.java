@@ -66,7 +66,7 @@ public class PlanosEntity {
 	}
 
 	public void setServicoPlano(ServicoPlanoEntity servicoPlano) {
-		servicoPlano = servicoPlano;
+		this.servicoPlano = servicoPlano;
 	}
 
 	public Double getVlPlano() {
