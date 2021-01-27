@@ -28,16 +28,16 @@ public class PlanosServlet extends HttpServlet {
         
     }
     RequestDispatcher rd = null;
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String acao = request.getParameter("acao");
-		
+	
 		
 		if(acao == null) {
 			this.listarPlanos(request, response);
-	//	}else if(acao.equals("editar")) {
-	//		this.editarPlanos(request, response);
+		}else if(acao.equals("editar")) {
+			this.editarPlano(request, response);
 	//	}else if(acao.equals("excluir")){
-	//		this.excluirPlanos(request, response);
+		//	this.excluirPlanos(request, response);
 		}else if(acao.equals("novo")) {
 			RequestDispatcher rd = request.getRequestDispatcher("/pages/nova-cidade.jsp");
 			rd.forward(request, response);
@@ -65,13 +65,74 @@ public class PlanosServlet extends HttpServlet {
 		PlanosEntity planosEntity = new PlanosEntity();
 		String acao = request.getParameter("acao");
 
-		if (acao.equals("novo"))
-			this.inserirPlano(planosEntity, request);
+		if (acao.equals("alterar"))
+			this.atualizaPlano(response, request);
+	//	else if(acao.equals("novo"))
+	// 		this.inserirPlano(response, request);
 		
-		//listarPlanos(request, response);
+		listarPlanos(request, response);
 	}
 	
+	//MÉTODO POST ATUALIZAR
+		private void atualizaPlano(HttpServletResponse response, HttpServletRequest request) {
+			RequestDispatcher rd = null;
+			
+			//capturar dados passados pelo form
+			String nmPlano = request.getParameter("nmPlano");
+			String dsPlano = request.getParameter("dsPlano");
+			String vlPlano = request.getParameter("vlPlano");
+			Double vlPlanoDouble =  Double.valueOf(vlPlano);
+			String idSPlano =request.getParameter("idServicoPlano");
+			String id = request.getParameter("id");
+			try {
+			//pegar a cidade
+			PlanosEntity planosEntity = em.find(PlanosEntity.class, new String(id));
+			planosEntity.setNmPlano(nmPlano);
+			planosEntity.setDsPlano(dsPlano);
+			planosEntity.setVlPlano(vlPlanoDouble);
+			
+			ServicoPlanoEntity servicoPlanoEntity =  em.find(ServicoPlanoEntity.class, new BigInteger(idSPlano));
+			
+			planosEntity.setServicoPlano(servicoPlanoEntity);
+			
+			//alterar a cidade
+			em.getTransaction().begin();
+			em.merge(planosEntity);
+			em.getTransaction().commit();
+			
+			//mostrar a lista novamente
+			this.listarPlanos(request, response);
+			
+			}catch (Exception e) {
+				request.setAttribute("erro", "Erro ao alterar cidade.");
+				rd = request.getRequestDispatcher("/SCREENS/erro.jsp");
+				e.printStackTrace();
+			}
+		}
+	
 
+		private void editarPlano( HttpServletRequest request ,HttpServletResponse response)throws ServletException, IOException {
+			RequestDispatcher rd = null;
+				
+				String id = request.getParameter("id");
+				
+				try {
+				
+				PlanosEntity planosEntity = em.find(PlanosEntity.class, new BigInteger(id));
+				request.setAttribute("plano", planosEntity);
+				
+				
+				rd = request.getRequestDispatcher("/pages/editar-planos.jsp");
+				rd.forward(request, response);
+				
+				}catch (Exception e) {
+					request.setAttribute("erro", "Erro ao editar plano.");
+					rd = request.getRequestDispatcher("/pages/erro.jsp");
+					rd.forward(request, response);
+					e.printStackTrace();
+				}
+
+			}
 	
 	private void inserirPlano(PlanosEntity planoEntity, HttpServletRequest request) {
 			
@@ -97,5 +158,6 @@ public class PlanosServlet extends HttpServlet {
 			em.getTransaction().commit();
 		
 	}
-
+	
+		
 }

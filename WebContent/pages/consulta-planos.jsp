@@ -16,6 +16,9 @@
 				<th> Descrição do Plano:</th>
 				<th> Valor do Plano:</th>
 				<th> Id do Serviço do Plano: </th>
+				
+				<th> Editar </th>
+				<th> Excluir </th>
     		
 			</tr>
 			<c:forEach items="${planos}" var="plano">
@@ -25,6 +28,12 @@
 					<td>${plano.dsPlano}</td>
 					<td>${plano.vlPlano}</td>
 					<td>${plano.servicoPlano.idServicoPlano}</td>
+					<td><a
+						href="/pi-grupo-1/planos?acao=editar&id=${plano.idPlano}"><button
+								type="button" class="btn btn-sm btn-primary">editar</button></a></td>
+					<td><a
+						href="pi-grupo-1/planos?acao=excluir&id=${plano.idPlano}"><button
+								type="button" class="btn btn-sm btn-warning">excluir</button></a></td>
 				</tr>
 			</c:forEach>
 		</table>
