@@ -17,7 +17,6 @@ import br.com.rd.quartaturma.grupo1.entity.CrudEntityManager;
 import br.com.rd.quartaturma.grupo1.entity.PlanosEntity;
 import br.com.rd.quartaturma.grupo1.entity.ServicoPlanoEntity;
 
-
 @WebServlet("/planos")
 public class PlanosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,7 +29,7 @@ public class PlanosServlet extends HttpServlet {
     RequestDispatcher rd = null;
     
 
-	// MÉTODO GET -----------------------------
+	// Mï¿½TODO GET -----------------------------
 	protected void doGet( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String acao = request.getParameter("acao");
 	
@@ -50,26 +49,24 @@ public class PlanosServlet extends HttpServlet {
 	// LISTAR PLANOS - Jemima
 	protected void listarPlanos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = null;
-		
-		
-        Query query = em.createNamedQuery("Planos.findAll", PlanosEntity.class);
-		
-      
-        List<PlanosEntity> planosEntity = query.getResultList();
-        
-       
-        request.setAttribute("planos", planosEntity);
-		
+
+		Query query = em.createNamedQuery("Planos.findAll", PlanosEntity.class);
+
+		List<PlanosEntity> planosEntity = query.getResultList();
+
+		request.setAttribute("planos", planosEntity);
+
 		rd = request.getRequestDispatcher("/pages/consulta-planos.jsp");
 		rd.forward(request, response);
 	}
 
 
-	// MÉTODO POST -----------------------------
+	// Mï¿½TODO POST -----------------------------
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String acao = request.getParameter("acao");
 
+		String acao = request.getParameter("acao");
 		if (acao.equals("novo"))
 			this.cadastrarPlano(response, request);
 		if (acao.equals("excluir"))
@@ -189,7 +186,7 @@ public class PlanosServlet extends HttpServlet {
 			planosEntity.setServicoPlano(servicoPlanoEntity);
 
 			em.getTransaction().begin();
-			em.persist(planosEntity);
+			em.remove(planoEntity);
 			em.getTransaction().commit();
 
 			rd = request.getRequestDispatcher("/pages/cadastro-plano.jsp");
