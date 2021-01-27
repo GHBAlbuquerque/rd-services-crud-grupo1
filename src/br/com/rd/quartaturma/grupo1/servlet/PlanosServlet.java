@@ -29,7 +29,7 @@ public class PlanosServlet extends HttpServlet {
     RequestDispatcher rd = null;
     
 
-	// M�TODO GET -----------------------------
+	// Metodo GET -----------------------------
 	protected void doGet( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String acao = request.getParameter("acao");
 	
@@ -41,7 +41,7 @@ public class PlanosServlet extends HttpServlet {
 		}else if(acao.equals("excluir")){
 			this.excluirPlano(request, response);
 		}else if(acao.equals("novo")) {
-			RequestDispatcher rd = request.getRequestDispatcher("/pages/nova-cidade.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/pages/cadastro-plano.jsp");
 			rd.forward(request, response);
 		}
 	}
@@ -61,10 +61,10 @@ public class PlanosServlet extends HttpServlet {
 	}
 
 
-	// M�TODO POST -----------------------------
+	// Metodo POST -----------------------------
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String acao = request.getParameter("acao");
+		
 
 		String acao = request.getParameter("acao");
 		if (acao.equals("novo"))
@@ -186,7 +186,7 @@ public class PlanosServlet extends HttpServlet {
 			planosEntity.setServicoPlano(servicoPlanoEntity);
 
 			em.getTransaction().begin();
-			em.remove(planoEntity);
+			em.persist(planosEntity);
 			em.getTransaction().commit();
 
 			rd = request.getRequestDispatcher("/pages/cadastro-plano.jsp");
