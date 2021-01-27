@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1> Erro</h1>
+	{mensagemErro}
 </body>
 </html>

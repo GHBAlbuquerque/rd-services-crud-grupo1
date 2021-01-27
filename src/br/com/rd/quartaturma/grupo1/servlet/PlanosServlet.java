@@ -28,6 +28,9 @@ public class PlanosServlet extends HttpServlet {
         
     }
     RequestDispatcher rd = null;
+    
+
+	// MÉTODO GET -----------------------------
 	protected void doGet( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String acao = request.getParameter("acao");
 	
@@ -36,14 +39,15 @@ public class PlanosServlet extends HttpServlet {
 			this.listarPlanos(request, response);
 		}else if(acao.equals("editar")) {
 			this.editarPlano(request, response);
-	//	}else if(acao.equals("excluir")){
-		//	this.excluirPlanos(request, response);
+		}else if(acao.equals("excluir")){
+			this.excluirPlano(request, response);
 		}else if(acao.equals("novo")) {
 			RequestDispatcher rd = request.getRequestDispatcher("/pages/nova-cidade.jsp");
 			rd.forward(request, response);
 		}
 	}
 	
+	// LISTAR PLANOS - Jemima
 	protected void listarPlanos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = null;
 		
@@ -60,20 +64,23 @@ public class PlanosServlet extends HttpServlet {
 		rd.forward(request, response);
 	}
 
-	
+
+	// MÉTODO POST -----------------------------
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PlanosEntity planosEntity = new PlanosEntity();
+		
 		String acao = request.getParameter("acao");
 
+		if (acao.equals("novo"))
+			this.cadastrarPlano(response, request);
+		if (acao.equals("excluir"))
+			this.excluirPlano(request, response);
 		if (acao.equals("alterar"))
 			this.atualizaPlano(response, request);
-	//	else if(acao.equals("novo"))
-	// 		this.inserirPlano(response, request);
 		
-		listarPlanos(request, response);
+			listarPlanos(request,response);
 	}
 	
-	//MÉTODO POST ATUALIZAR
+	//Atualizar Plano Jemima
 		private void atualizaPlano(HttpServletResponse response, HttpServletRequest request) {
 			RequestDispatcher rd = null;
 			
@@ -86,13 +93,12 @@ public class PlanosServlet extends HttpServlet {
 			String id = request.getParameter("id");
 			try {
 			//pegar a cidade
-			PlanosEntity planosEntity = em.find(PlanosEntity.class, new String(id));
+			PlanosEntity planosEntity = em.find(PlanosEntity.class, new BigInteger(id));
 			planosEntity.setNmPlano(nmPlano);
 			planosEntity.setDsPlano(dsPlano);
 			planosEntity.setVlPlano(vlPlanoDouble);
 			
 			ServicoPlanoEntity servicoPlanoEntity =  em.find(ServicoPlanoEntity.class, new BigInteger(idSPlano));
-			
 			planosEntity.setServicoPlano(servicoPlanoEntity);
 			
 			//alterar a cidade
@@ -104,12 +110,12 @@ public class PlanosServlet extends HttpServlet {
 			this.listarPlanos(request, response);
 			
 			}catch (Exception e) {
-				request.setAttribute("erro", "Erro ao alterar cidade.");
-				rd = request.getRequestDispatcher("/SCREENS/erro.jsp");
+				request.setAttribute("erro", "Erro ao alterar plano.");
+				rd = request.getRequestDispatcher("/pages/erro.jsp");
 				e.printStackTrace();
 			}
 		}
-	
+		
 
 		private void editarPlano( HttpServletRequest request ,HttpServletResponse response)throws ServletException, IOException {
 			RequestDispatcher rd = null;
@@ -122,7 +128,7 @@ public class PlanosServlet extends HttpServlet {
 				request.setAttribute("plano", planosEntity);
 				
 				
-				rd = request.getRequestDispatcher("/pages/editar-planos.jsp");
+				rd = request.getRequestDispatcher("/pages/alterar-plano.jsp");
 				rd.forward(request, response);
 				
 				}catch (Exception e) {
@@ -134,30 +140,64 @@ public class PlanosServlet extends HttpServlet {
 
 			}
 	
-	private void inserirPlano(PlanosEntity planoEntity, HttpServletRequest request) {
-			
+		// EXCLUIR PLANO - Monique
+		protected void excluirPlano(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+
+			RequestDispatcher rd = null;
+			String id = request.getParameter("id");
+
+			try {
+				PlanosEntity planoEntity = em.find(PlanosEntity.class, new BigInteger(id));
+				request.setAttribute("plano", planoEntity);
+
+				em.getTransaction().begin();
+				em.remove(planoEntity);
+				em.getTransaction().commit();
+
+				this.listarPlanos(request, response);
+
+			} catch (Exception e) {
+				request.setAttribute("erro", "Erro ao excluir plano.");
+				e.printStackTrace();
+			}
+		}
+
+		
+		
+	
+		// CADASTRAR PLANO - Monique
+		private void cadastrarPlano(HttpServletResponse response, HttpServletRequest request)
+				throws ServletException, IOException {
+
+			RequestDispatcher rd = null;
+
 			String nmPlano = request.getParameter("nmPlano");
 			String dsPlano = request.getParameter("dsPlano");
-			Double vlPlano = Double.valueOf("vlPlano");
-			String idSPlano =request.getParameter("idServicoPlano");
-			//String id = request.getParameter("id");		
-			
+			String vlPlano = request.getParameter("vlPlano");
+			Double vlPlanoDouble = Double.valueOf(vlPlano);
+			String idSPlano = request.getParameter("idServicoPlano");
+			// String id = request.getParameter("id");
+
 			PlanosEntity planosEntity = new PlanosEntity();
-			ServicoPlanoEntity servicoPlanoEntity =  em.find(ServicoPlanoEntity.class, new BigInteger(idSPlano));
-			
-			planosEntity.setServicoPlano(servicoPlanoEntity);
-			
+			ServicoPlanoEntity servicoPlanoEntity = em.find(ServicoPlanoEntity.class, new BigInteger(idSPlano));
+
 			planosEntity.setIdPlano(null);
 			planosEntity.setNmPlano(nmPlano);
 			planosEntity.setDsPlano(dsPlano);
-			planosEntity.setVlPlano(vlPlano);
-			
-				
+			planosEntity.setVlPlano(vlPlanoDouble);
+			planosEntity.setServicoPlano(servicoPlanoEntity);
+
 			em.getTransaction().begin();
 			em.persist(planosEntity);
 			em.getTransaction().commit();
-		
-	}
+
+			rd = request.getRequestDispatcher("/pages/cadastro-plano.jsp");
+			rd.forward(request, response);
+			
+			listarPlanos(request, response);
+
+		}
 	
 		
 }
