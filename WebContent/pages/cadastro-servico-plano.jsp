@@ -12,9 +12,23 @@
 	crossorigin="anonymous">
 </head>
 <body>
-	<div class="container">
-	
-	
+	<<div class="container">
+		<form action="/rd-services-crud-grupo1/planos" method="post">
+			<div class="row">
+
+				Id do Serviço do Plano: <input type="text" name="idServico" /> 
+				Nome do Serviço do Plano: <input type="text" name="dsServico" /> 
+				
+				<input type="hidden" name="idServico"	value="id" /> <input type="hidden" name="acao" value="inserir">
+			</div>
+			<div class="row">
+				<input type="submit" value="Cadastrar" class="btn btn-success mt-2"/>
+			</div>
+		</form>
+				<div class="row mt-3">
+			<a href="/rd-services-crud-grupo1/planos" class="mx-0 p-0"><button
+					class="btn  btn-success">Voltar</button></a>
+		</div>
 	</div>
 </body>
 </html>

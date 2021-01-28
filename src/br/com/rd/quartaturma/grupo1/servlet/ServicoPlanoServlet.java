@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.rd.quartaturma.grupo1.entity.CrudEntityManager;
+import br.com.rd.quartaturma.grupo1.entity.PlanosEntity;
 import br.com.rd.quartaturma.grupo1.entity.ServicoPlanoEntity;
 
 /**
@@ -39,13 +40,15 @@ public class ServicoPlanoServlet extends HttpServlet {
   	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   		String acao = request.getParameter("acao");
   		
+
+		
   		if(acao == null) {
   			this.listarServPlano(request, response);
   		}else if(acao.equals("editar")) {
   			this.editarServPlano(request, response);
   		}else if(acao.equals("excluir")){
   			this.excluirServPlano(request, response);
-  		}else if(acao.equals("novo")) {
+  		}else if(acao.equals("inserir")) {
   			RequestDispatcher rd = request.getRequestDispatcher("/pages/cadastro-servico-plano.jsp");
   			rd.forward(request, response);
   		}
@@ -128,7 +131,7 @@ public class ServicoPlanoServlet extends HttpServlet {
   		
   		if(acao.equals("alterar"))
   			this.alteraServPlano(response, request);
-  		else if(acao.equals("novo"))
+  		else if(acao.equals("inserir"))
   			this.insereServPlano(response, request);
   		
   		listarServPlano(request, response);
@@ -142,9 +145,27 @@ public class ServicoPlanoServlet extends HttpServlet {
   	}
   	
   	//MÉTODO POST INSERIR - JEMIMA
-  	private void insereServPlano(HttpServletResponse response, HttpServletRequest request) {
-  		//TODO
-  		
-  	}
+  	private void insereServPlano(HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+  		RequestDispatcher rd = null;
 
+		
+		String dsPlano = request.getParameter("dsServico");
+	
+		ServicoPlanoEntity servicoPlanoEntity = new ServicoPlanoEntity();
+		
+		servicoPlanoEntity.setDsServico(dsPlano);
+	
+		em.getTransaction().begin();
+		em.persist(servicoPlanoEntity);
+		em.getTransaction().commit();
+
+		rd = request.getRequestDispatcher("/pages/cadastro-servico-plano.jsp");
+		rd.forward(request, response);
+		
+			listarServPlano(request, response);
+		
+		
+		}
 }
+
+
