@@ -34,7 +34,7 @@
 			</div>
 		</form>
 		<div class="row mt-3">
-			<a href="/acesso-banco-jpa/cidades" class="mx-0 p-0"><button
+			<a href="/rd-services-crud-grupo1/planos" class="mx-0 p-0"><button
 					class="btn btn-primary">Voltar</button></a>
 		</div>
 	</div>

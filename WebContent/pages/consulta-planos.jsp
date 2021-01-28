@@ -19,7 +19,7 @@
 
 		<a href="/rd-services-crud-grupo1/planos?acao=novo"><button
 				type="button" class="btn btn-success my-3">Novo Plano</button></a>
-		<table>
+		<table class="table">
 			<tr>
 				<th>ID do Plano:</th>
 				<th>Nome do Plano:</th>
@@ -46,10 +46,10 @@
 				</tr>
 			</c:forEach>
 		</table>
-		
-								<div class="row mt-3">
+
+		<div class="row mt-3">
 			<a href="/rd-services-crud-grupo1/servicos-plano" class="mx-0 p-0"><button
 					class="btn  btn-success">Ver lista de Serviços de Plano</button></a>
-	</div>
+		</div>
 </body>
 </html>

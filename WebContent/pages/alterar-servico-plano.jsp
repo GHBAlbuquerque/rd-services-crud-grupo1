@@ -14,19 +14,22 @@
 	crossorigin="anonymous">
 </head>
 <body>
-<form action="/rd-services-crud-grupo1/servicos-plano" method="post">
 	<div class="container">
-	
-				Descrição do Serviço-Plano: <input type="text" name="dsServPlano" /> 
-			<input type="hidden" name="idServicoPlano"	value="idServicoPlano" /> <input type="hidden" name="acao" value="editar">
+		<form action="/rd-services-crud-grupo1/servicos-plano" method="post">
+			<div class="row">
+				Descrição do Serviço-Plano: <input type="text" name="dsServPlano"
+					value="${servPlano.dsServico}" /> <input type="hidden"
+					name="idServicoPlano" value="idServicoPlano" /> <input
+					type="hidden" name="acao" value="editar">
 			</div>
 			<div class="row">
-				<input type="submit" value="Atualizar" class="btn btn-success mt-2"/>
+				<input type="submit" value="Atualizar" class="btn btn-success mt-2" />
 			</div>
 		</form>
-				<div class="row mt-3">
+		<div class="row mt-3">
 			<a href="/rd-services-crud-grupo1/servicos-plano" class="mx-0 p-0"><button
 					class="btn  btn-success">Voltar</button></a>
 		</div>
+	</div>
 </body>
 </html>
