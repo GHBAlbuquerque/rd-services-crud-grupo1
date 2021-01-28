@@ -48,7 +48,7 @@ public class ServicoPlanoServlet extends HttpServlet {
   			this.editarServPlano(request, response);
   		}else if(acao.equals("excluir")){
   			this.excluirServPlano(request, response);
-  		}else if(acao.equals("inserir")) {
+  		}else if(acao.equals("novo")) {
   			RequestDispatcher rd = request.getRequestDispatcher("/pages/cadastro-servico-plano.jsp");
   			rd.forward(request, response);
   		}
@@ -131,7 +131,7 @@ public class ServicoPlanoServlet extends HttpServlet {
   		
   		if(acao.equals("alterar"))
   			this.alteraServPlano(response, request);
-  		else if(acao.equals("inserir"))
+  		else if(acao.equals("novo"))
   			this.insereServPlano(response, request);
   		
   		listarServPlano(request, response);
@@ -153,6 +153,7 @@ public class ServicoPlanoServlet extends HttpServlet {
 	
 		ServicoPlanoEntity servicoPlanoEntity = new ServicoPlanoEntity();
 		
+		servicoPlanoEntity.setIdServicoPlano(null);
 		servicoPlanoEntity.setDsServico(dsPlano);
 	
 		em.getTransaction().begin();
@@ -162,10 +163,11 @@ public class ServicoPlanoServlet extends HttpServlet {
 		rd = request.getRequestDispatcher("/pages/cadastro-servico-plano.jsp");
 		rd.forward(request, response);
 		
-			listarServPlano(request, response);
+			this.listarServPlano(request, response);
 		
 		
 		}
+  	
 }
 
 

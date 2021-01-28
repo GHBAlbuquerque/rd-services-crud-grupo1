@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,14 +13,14 @@
 	crossorigin="anonymous">
 </head>
 <body>
-	<<div class="container">
+	<div class="container">
 		<form action="/rd-services-crud-grupo1/planos" method="post">
 			<div class="row">
 
-				Id do Serviço do Plano: <input type="text" name="idServico" /> 
+				Id do Serviço do Plano: <input type="text" name="idServicoPlano" /> 
 				Nome do Serviço do Plano: <input type="text" name="dsServico" /> 
 				
-				<input type="hidden" name="idServico"	value="id" /> <input type="hidden" name="acao" value="inserir">
+				<input type="hidden" name="idServicoPlano"	value="id" /> <input type="hidden" name="acao" value="novo">
 			</div>
 			<div class="row">
 				<input type="submit" value="Cadastrar" class="btn btn-success mt-2"/>
