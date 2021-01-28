@@ -40,8 +40,6 @@ public class ServicoPlanoServlet extends HttpServlet {
   	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   		String acao = request.getParameter("acao");
   		
-
-		
   		if(acao == null) {
   			this.listarServPlano(request, response);
   		}else if(acao.equals("editar")) {
@@ -139,7 +137,28 @@ public class ServicoPlanoServlet extends HttpServlet {
   	
   	//MÉTODO POST ALTERAR - MONIQUE
   	private void alteraServPlano(HttpServletResponse response, HttpServletRequest request) {
-  		//TODO
+	  		
+		RequestDispatcher rd = null;
+		  			
+		String idServicoPlano = request.getParameter("idServicoPlano");
+		String dsServico = request.getParameter("dsServico");
+	
+		
+		try {
+		ServicoPlanoEntity servicoPlano = em.find(ServicoPlanoEntity .class, new BigInteger(idServicoPlano));
+		servicoPlano.setDsServico(dsServico);
+				  		
+		em.getTransaction().begin();
+		em.merge(servicoPlano);
+		em.getTransaction().commit();
+		
+		listarServPlano(request, response);
+	  	  			
+		}catch (Exception e) {
+			request.setAttribute("erro", "Erro ao alterar Serviço-Plano.");
+			rd = request.getRequestDispatcher("/pages/erro.jsp");
+			e.printStackTrace();
+		}
   		
 
   	}

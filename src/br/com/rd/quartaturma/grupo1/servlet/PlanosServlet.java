@@ -189,8 +189,8 @@ public class PlanosServlet extends HttpServlet {
 			em.persist(planosEntity);
 			em.getTransaction().commit();
 
-			rd = request.getRequestDispatcher("/pages/cadastro-plano.jsp");
-			rd.forward(request, response);
+			//rd = request.getRequestDispatcher("/pages/cadastro-plano.jsp");
+			//rd.forward(request, response);
 			
 			listarPlanos(request, response);
 
