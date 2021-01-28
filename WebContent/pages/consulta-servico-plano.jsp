@@ -17,7 +17,7 @@
 	<div class="container">
 		<h1>Serviços - Planos</h1>
 
-		<a href="/rd-services-crud-grupo1/planos?acao=novo"><button
+		<a href="/rd-services-crud-grupo1/servicos-plano?acao=novo"><button
 				type="button" class="btn btn-success my-3">Novo Serviço de Plano</button></a>
 		<table>
 			<tr>

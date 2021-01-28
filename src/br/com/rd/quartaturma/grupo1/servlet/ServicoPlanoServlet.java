@@ -32,7 +32,7 @@ public class ServicoPlanoServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    RequestDispatcher rd = null;
   //MÉTODO GET **************************************************
   	/**
   	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -149,19 +149,23 @@ public class ServicoPlanoServlet extends HttpServlet {
   		RequestDispatcher rd = null;
 
 		
-		String dsPlano = request.getParameter("dsServico");
+		String dsServico = request.getParameter("dsServico");
 	
-		ServicoPlanoEntity servicoPlanoEntity = new ServicoPlanoEntity();
 		
-		servicoPlanoEntity.setIdServicoPlano(null);
-		servicoPlanoEntity.setDsServico(dsPlano);
+		
+		ServicoPlanoEntity servicoplanoEntity = new ServicoPlanoEntity();
+
+		servicoplanoEntity.setIdServicoPlano(null);
+		servicoplanoEntity.setDsServico(dsServico);
+		
+
 	
 		em.getTransaction().begin();
-		em.persist(servicoPlanoEntity);
+		em.persist(servicoplanoEntity);
 		em.getTransaction().commit();
 
-		rd = request.getRequestDispatcher("/pages/cadastro-servico-plano.jsp");
-		rd.forward(request, response);
+	//	rd = request.getRequestDispatcher("/pages/cadastro-servico-plano.jsp");
+	//	rd.forward(request, response);
 		
 			this.listarServPlano(request, response);
 		

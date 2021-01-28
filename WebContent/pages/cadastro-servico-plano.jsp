@@ -14,10 +14,10 @@
 </head>
 <body>
 	<div class="container">
-		<form action="/rd-services-crud-grupo1/planos" method="post">
+		<form action="/rd-services-crud-grupo1/servicos-plano" method="post">
 			<div class="row">
 
-				Id do Serviço do Plano: <input type="text" name="idServicoPlano" /> 
+				 
 				Nome do Serviço do Plano: <input type="text" name="dsServico" /> 
 				
 				<input type="hidden" name="idServicoPlano"	value="id" /> <input type="hidden" name="acao" value="novo">
@@ -27,7 +27,7 @@
 			</div>
 		</form>
 				<div class="row mt-3">
-			<a href="/rd-services-crud-grupo1/planos" class="mx-0 p-0"><button
+			<a href="/rd-services-crud-grupo1/servicos-plano" class="mx-0 p-0"><button
 					class="btn  btn-success">Voltar</button></a>
 		</div>
 	</div>

@@ -38,6 +38,8 @@ public class ServicoPlanoEntity {
 	public void setDsServico(String dsServico) {
 		this.dsServico = dsServico;
 	}
+
+	
 		
 
 }
